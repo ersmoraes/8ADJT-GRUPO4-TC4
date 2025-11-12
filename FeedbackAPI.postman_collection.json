@@ -1,0 +1,144 @@
+{
+  "info": {
+    "name": "TC4 Feedback API",
+    "_postman_id": "b1a23f1e-0e6d-4a3a-9afc-36dfbba55555",
+    "description": "Coleção Postman da API de Feedback (Login, Feedbacks, Relatórios, Estatísticas).",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Autenticação",
+      "item": [
+        {
+          "name": "Login (Admin)",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "url": { "raw": "http://localhost:8080/api/auth/login", "protocol": "http", "host": ["localhost"], "port": "8080", "path": ["api", "auth", "login"] },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"admin@feedback.com\",\n  \"password\": \"admin123\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Login (Aluno)",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "url": { "raw": "http://localhost:8080/api/auth/login", "protocol": "http", "host": ["localhost"], "port": "8080", "path": ["api", "auth", "login"] },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"maria.silva@aluno.com\",\n  \"password\": \"maria123\"\n}"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Aluno",
+      "item": [
+        {
+          "name": "Criar Feedback (Normal)",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token_aluno}}" }
+            ],
+            "url": { "raw": "http://localhost:8080/api/feedbacks", "protocol": "http", "host": ["localhost"], "port": "8080", "path": ["api", "feedbacks"] },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"studentName\": \"Maria Silva\",\n  \"studentEmail\": \"maria.silva@aluno.com\",\n  \"course\": \"Engenharia de Software\",\n  \"rating\": 5,\n  \"comment\": \"Curso excelente, aprendi muito!\",\n  \"urgent\": false\n}"
+            }
+          }
+        },
+        {
+          "name": "Criar Feedback (Urgente)",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token_aluno}}" }
+            ],
+            "url": { "raw": "http://localhost:8080/api/feedbacks", "protocol": "http", "host": ["localhost"], "port": "8080", "path": ["api", "feedbacks"] },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"studentName\": \"João Santos\",\n  \"studentEmail\": \"joao.santos@aluno.com\",\n  \"course\": \"Banco de Dados\",\n  \"rating\": 1,\n  \"comment\": \"Sistema fora do ar há 2 dias!\",\n  \"urgent\": true\n}"
+            }
+          }
+        },
+        {
+          "name": "Listar Feedbacks do Aluno",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token_aluno}}" }
+            ],
+            "url": { "raw": "http://localhost:8080/api/feedbacks/me", "protocol": "http", "host": ["localhost"], "port": "8080", "path": ["api", "feedbacks", "me"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Admin",
+      "item": [
+        {
+          "name": "Listar Todos Feedbacks",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token_admin}}" }
+            ],
+            "url": { "raw": "http://localhost:8080/api/admin/feedbacks", "protocol": "http", "host": ["localhost"], "port": "8080", "path": ["api", "admin", "feedbacks"] }
+          }
+        },
+        {
+          "name": "Listar Feedbacks Urgentes",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token_admin}}" }
+            ],
+            "url": { "raw": "http://localhost:8080/api/admin/feedbacks/urgent", "protocol": "http", "host": ["localhost"], "port": "8080", "path": ["api", "admin", "feedbacks", "urgent"] }
+          }
+        },
+        {
+          "name": "Gerar Relatório Semanal",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token_admin}}" }
+            ],
+            "url": { "raw": "http://localhost:8080/api/admin/report/weekly", "protocol": "http", "host": ["localhost"], "port": "8080", "path": ["api", "admin", "report", "weekly"] }
+          }
+        },
+        {
+          "name": "Estatísticas Gerais",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token_admin}}" }
+            ],
+            "url": { "raw": "http://localhost:8080/api/admin/stats", "protocol": "http", "host": ["localhost"], "port": "8080", "path": ["api", "admin", "stats"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Health Check",
+      "request": {
+        "method": "GET",
+        "url": { "raw": "http://localhost:8080/actuator/health", "protocol": "http", "host": ["localhost"], "port": "8080", "path": ["actuator", "health"] }
+      }
+    }
+  ],
+  "variable": [
+    { "key": "token_admin", "value": "" },
+    { "key": "token_aluno", "value": "" }
+  ]
+}
