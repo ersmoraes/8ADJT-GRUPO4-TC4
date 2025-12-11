@@ -604,23 +604,6 @@ gcloud sql instances patch feedbackdb --activation-policy=NEVER
 
 ---
 
-## 🎥 Demonstração em Vídeo (15 minutos)
-
-### Roteiro Sugerido
-
-1. **Introdução (2 min)**: Arquitetura e tecnologias
-2. **Deploy (3 min)**: Executar `./deploy.sh` e mostrar logs
-3. **Testes da API (5 min)**:
-   - Login como aluno
-   - Criar feedback normal
-   - Criar feedback urgente (mostrar notificação)
-   - Login como admin
-   - Gerar relatório manual
-4. **Monitoramento (3 min)**: Cloud Console, logs, métricas
-5. **Encerramento (2 min)**: Executar `./shutdown.sh`
-
----
-
 ## 🤝 Credenciais de Teste
 
 ### Usuário Administrador
@@ -649,16 +632,3 @@ Este projeto é de código aberto para fins educacionais.
 ## 👨‍💻 Autor
 
 Desenvolvido como projeto de demonstração de arquitetura serverless com Spring Boot e Google Cloud Platform.
-
----
-
-## 🆘 Suporte
-
-Para dúvidas ou problemas:
-1. Verifique os logs: `gcloud app logs tail`
-2. Consulte a documentação: [Google Cloud Docs](https://cloud.google.com/docs)
-3. GitHub Issues: [link do repositório]
-
----
-
-**🎓 Bons estudos e boa sorte no projeto!**
