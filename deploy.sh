@@ -20,7 +20,7 @@ YELLOW='\033[1;33m'
 NC='\033[0m' # No Color
 
 # Configurações (substitua pelos valores do seu projeto)
-PROJECT_ID="your-project-id"
+PROJECT_ID="sis-gerenciamento-de-feedbacks"
 REGION="us-central1"
 
 echo -e "${BLUE}Configurando projeto: ${PROJECT_ID}${NC}"

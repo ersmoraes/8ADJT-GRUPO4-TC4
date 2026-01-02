@@ -40,7 +40,7 @@ public class FeedbackService {
         feedback.setComment(request.getComment());
         feedback.setUrgent(request.isUrgent());
 
-        Feedback savedFeedback = feedbackRepository.save(feedback);
+        Feedback savedFeedback = feedbackRepository.saveAndFlush(feedback);
         log.info("Feedback criado com sucesso. ID: {}", savedFeedback.getId());
 
         // Se for urgente, envia notificação

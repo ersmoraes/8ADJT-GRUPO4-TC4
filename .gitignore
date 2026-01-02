@@ -70,6 +70,7 @@ logs/
 # Google Cloud
 gcp-credentials.json
 .gcloud/
+.gcloudignore
 
 # Environment variables
 .env

@@ -44,17 +44,21 @@ functions.http('notifyUrgentFeedback', async (req, res) => {
     // Extrai dados do feedback
     const feedback = req.body;
 
+    // compatibilidade com backend Spring
+    const feedbackId = feedback.feedbackId || feedback.id;
+    const createdAt = feedback.createdAt || feedback.date;
+
     console.log('📋 Dados do Feedback:');
-    console.log(`   ID: ${feedback.feedbackId}`);
+    console.log(`   ID: ${feedbackId}`);
     console.log(`   Aluno: ${feedback.studentName}`);
     console.log(`   Email: ${feedback.studentEmail}`);
     console.log(`   Curso: ${feedback.course}`);
     console.log(`   Nota: ${feedback.rating} ⭐`);
     console.log(`   Comentário: ${feedback.comment}`);
-    console.log(`   Data: ${feedback.createdAt}`);
+    console.log(`   Data: ${createdAt}`);
 
-    // Validação básica
-    if (!feedback.feedbackId || !feedback.studentName) {
+    // validação
+    if (!feedbackId || !feedback.studentName) {
       console.error('❌ Dados inválidos recebidos');
       res.status(400).json({
         success: false,
