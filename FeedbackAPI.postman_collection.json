@@ -1,144 +1,641 @@
 {
-  "info": {
-    "name": "TC4 Feedback API",
-    "_postman_id": "b1a23f1e-0e6d-4a3a-9afc-36dfbba55555",
-    "description": "Coleção Postman da API de Feedback (Login, Feedbacks, Relatórios, Estatísticas).",
-    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
-  },
-  "item": [
-    {
-      "name": "Autenticação",
-      "item": [
-        {
-          "name": "Login (Admin)",
-          "request": {
-            "method": "POST",
-            "header": [
-              { "key": "Content-Type", "value": "application/json" }
-            ],
-            "url": { "raw": "http://localhost:8080/api/auth/login", "protocol": "http", "host": ["localhost"], "port": "8080", "path": ["api", "auth", "login"] },
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"email\": \"admin@feedback.com\",\n  \"password\": \"admin123\"\n}"
-            }
-          }
-        },
-        {
-          "name": "Login (Aluno)",
-          "request": {
-            "method": "POST",
-            "header": [
-              { "key": "Content-Type", "value": "application/json" }
-            ],
-            "url": { "raw": "http://localhost:8080/api/auth/login", "protocol": "http", "host": ["localhost"], "port": "8080", "path": ["api", "auth", "login"] },
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"email\": \"maria.silva@aluno.com\",\n  \"password\": \"maria123\"\n}"
-            }
-          }
-        }
-      ]
-    },
-    {
-      "name": "Aluno",
-      "item": [
-        {
-          "name": "Criar Feedback (Normal)",
-          "request": {
-            "method": "POST",
-            "header": [
-              { "key": "Content-Type", "value": "application/json" },
-              { "key": "Authorization", "value": "Bearer {{token_aluno}}" }
-            ],
-            "url": { "raw": "http://localhost:8080/api/feedbacks", "protocol": "http", "host": ["localhost"], "port": "8080", "path": ["api", "feedbacks"] },
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"studentName\": \"Maria Silva\",\n  \"studentEmail\": \"maria.silva@aluno.com\",\n  \"course\": \"Engenharia de Software\",\n  \"rating\": 5,\n  \"comment\": \"Curso excelente, aprendi muito!\",\n  \"urgent\": false\n}"
-            }
-          }
-        },
-        {
-          "name": "Criar Feedback (Urgente)",
-          "request": {
-            "method": "POST",
-            "header": [
-              { "key": "Content-Type", "value": "application/json" },
-              { "key": "Authorization", "value": "Bearer {{token_aluno}}" }
-            ],
-            "url": { "raw": "http://localhost:8080/api/feedbacks", "protocol": "http", "host": ["localhost"], "port": "8080", "path": ["api", "feedbacks"] },
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"studentName\": \"João Santos\",\n  \"studentEmail\": \"joao.santos@aluno.com\",\n  \"course\": \"Banco de Dados\",\n  \"rating\": 1,\n  \"comment\": \"Sistema fora do ar há 2 dias!\",\n  \"urgent\": true\n}"
-            }
-          }
-        },
-        {
-          "name": "Listar Feedbacks do Aluno",
-          "request": {
-            "method": "GET",
-            "header": [
-              { "key": "Authorization", "value": "Bearer {{token_aluno}}" }
-            ],
-            "url": { "raw": "http://localhost:8080/api/feedbacks/me", "protocol": "http", "host": ["localhost"], "port": "8080", "path": ["api", "feedbacks", "me"] }
-          }
-        }
-      ]
-    },
-    {
-      "name": "Admin",
-      "item": [
-        {
-          "name": "Listar Todos Feedbacks",
-          "request": {
-            "method": "GET",
-            "header": [
-              { "key": "Authorization", "value": "Bearer {{token_admin}}" }
-            ],
-            "url": { "raw": "http://localhost:8080/api/admin/feedbacks", "protocol": "http", "host": ["localhost"], "port": "8080", "path": ["api", "admin", "feedbacks"] }
-          }
-        },
-        {
-          "name": "Listar Feedbacks Urgentes",
-          "request": {
-            "method": "GET",
-            "header": [
-              { "key": "Authorization", "value": "Bearer {{token_admin}}" }
-            ],
-            "url": { "raw": "http://localhost:8080/api/admin/feedbacks/urgent", "protocol": "http", "host": ["localhost"], "port": "8080", "path": ["api", "admin", "feedbacks", "urgent"] }
-          }
-        },
-        {
-          "name": "Gerar Relatório Semanal",
-          "request": {
-            "method": "POST",
-            "header": [
-              { "key": "Authorization", "value": "Bearer {{token_admin}}" }
-            ],
-            "url": { "raw": "http://localhost:8080/api/admin/report/weekly", "protocol": "http", "host": ["localhost"], "port": "8080", "path": ["api", "admin", "report", "weekly"] }
-          }
-        },
-        {
-          "name": "Estatísticas Gerais",
-          "request": {
-            "method": "GET",
-            "header": [
-              { "key": "Authorization", "value": "Bearer {{token_admin}}" }
-            ],
-            "url": { "raw": "http://localhost:8080/api/admin/stats", "protocol": "http", "host": ["localhost"], "port": "8080", "path": ["api", "admin", "stats"] }
-          }
-        }
-      ]
-    },
-    {
-      "name": "Health Check",
-      "request": {
-        "method": "GET",
-        "url": { "raw": "http://localhost:8080/actuator/health", "protocol": "http", "host": ["localhost"], "port": "8080", "path": ["actuator", "health"] }
-      }
-    }
-  ],
-  "variable": [
-    { "key": "token_admin", "value": "" },
-    { "key": "token_aluno", "value": "" }
-  ]
+	"info": {
+		"_postman_id": "a59c908b-8172-4ee9-8a19-cc3d794a4b2e",
+		"name": "TC4 Feedback API",
+		"description": "Coleção Postman da API de Feedback (Login, Feedbacks, Relatórios, Estatísticas).",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "48188241"
+	},
+	"item": [
+		{
+			"name": "Autenticação",
+			"item": [
+				{
+					"name": "Login (Admin)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"email\": \"admin@feedback.com\",\n  \"password\": \"admin123\"\n}"
+						},
+						"url": {
+							"raw": "{{feedback_url}}/api/auth/login",
+							"host": [
+								"{{feedback_url}}"
+							],
+							"path": [
+								"api",
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login (Aluno)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"email\": \"maria.silva@aluno.com\",\n  \"password\": \"maria123\"\n}"
+						},
+						"url": {
+							"raw": "{{feedback_url}}/api/auth/login",
+							"host": [
+								"{{feedback_url}}"
+							],
+							"path": [
+								"api",
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Aluno",
+			"item": [
+				{
+					"name": "Criar Feedback (Normal)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token_aluno}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"studentName\": \"Maria Silva\",\n  \"studentEmail\": \"maria.silva@aluno.com\",\n  \"course\": \"Engenharia de Software\",\n  \"rating\": 5,\n  \"comment\": \"Curso excelente!\",\n  \"urgent\": false\n}"
+						},
+						"url": {
+							"raw": "{{feedback_url}}/api/feedbacks",
+							"host": [
+								"{{feedback_url}}"
+							],
+							"path": [
+								"api",
+								"feedbacks"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Criar Feedback (Urgente)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token_aluno}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"studentName\": \"João Santos\",\n  \"studentEmail\": \"joao.santos@aluno.com\",\n  \"course\": \"Banco de Dados\",\n  \"rating\": 1,\n  \"comment\": \"Sistema fora do ar há 2 dias!\",\n  \"urgent\": true\n}"
+						},
+						"url": {
+							"raw": "{{feedback_url}}/api/feedbacks",
+							"host": [
+								"{{feedback_url}}"
+							],
+							"path": [
+								"api",
+								"feedbacks"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Listar Feedbacks do Aluno",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Parse response and handle empty responses gracefully",
+									"const response = pm.response.json();",
+									"",
+									"if (!response || !Array.isArray(response) || response.length === 0) {",
+									"    // Handle empty response",
+									"    var template = `",
+									"        <div style=\"font-family: Arial, sans-serif; padding: 20px; text-align: center;\">",
+									"            <h2>No Feedback Data Available</h2>",
+									"            <p>There are no feedbacks to display.</p>",
+									"        </div>",
+									"    `;",
+									"    pm.visualizer.set(template, {});",
+									"} else {",
+									"    // Aggregate counts per rating (1-5)",
+									"    const ratingCounts = {1: 0, 2: 0, 3: 0, 4: 0, 5: 0};",
+									"    ",
+									"    // Group feedbacks by day for average rating over time",
+									"    const feedbacksByDay = {};",
+									"    ",
+									"    response.forEach(feedback => {",
+									"        // Count ratings",
+									"        const rating = feedback.rating;",
+									"        if (rating >= 1 && rating <= 5) {",
+									"            ratingCounts[rating]++;",
+									"        }",
+									"        ",
+									"        // Group by day",
+									"        const date = feedback.createdAt ? feedback.createdAt.split('T')[0] : 'Unknown';",
+									"        if (!feedbacksByDay[date]) {",
+									"            feedbacksByDay[date] = { total: 0, count: 0 };",
+									"        }",
+									"        feedbacksByDay[date].total += rating;",
+									"        feedbacksByDay[date].count++;",
+									"    });",
+									"    ",
+									"    // Calculate average rating per day and sort by date",
+									"    const sortedDates = Object.keys(feedbacksByDay).sort();",
+									"    const avgRatingsPerDay = sortedDates.map(date => {",
+									"        return (feedbacksByDay[date].total / feedbacksByDay[date].count).toFixed(2);",
+									"    });",
+									"    ",
+									"    // Prepare data for visualization",
+									"    const visualizerData = {",
+									"        ratingLabels: JSON.stringify(['1 Star', '2 Stars', '3 Stars', '4 Stars', '5 Stars']),",
+									"        ratingData: JSON.stringify([ratingCounts[1], ratingCounts[2], ratingCounts[3], ratingCounts[4], ratingCounts[5]]),",
+									"        dateLabels: JSON.stringify(sortedDates),",
+									"        avgRatings: JSON.stringify(avgRatingsPerDay.map(Number)),",
+									"        totalFeedbacks: response.length",
+									"    };",
+									"    ",
+									"    var template = `",
+									"        <div style=\"font-family: Arial, sans-serif; padding: 20px;\">",
+									"            <h2 style=\"text-align: center;\">Feedback Analysis Dashboard</h2>",
+									"            <p style=\"text-align: center;\">Total Feedbacks: {{totalFeedbacks}}</p>",
+									"            ",
+									"            <div style=\"display: flex; flex-wrap: wrap; justify-content: space-around;\">",
+									"                <div style=\"width: 45%; min-width: 400px; margin: 10px;\">",
+									"                    <canvas id=\"lineChart\" height=\"200\"></canvas>",
+									"                </div>",
+									"                <div style=\"width: 45%; min-width: 400px; margin: 10px;\">",
+									"                    <canvas id=\"barChart\" height=\"200\"></canvas>",
+									"                </div>",
+									"            </div>",
+									"        </div>",
+									"        ",
+									"        <script src=\"https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js\"></script>",
+									"        <script>",
+									"            pm.getData(function (err, value) {",
+									"                var ratingLabels = JSON.parse(value.ratingLabels);",
+									"                var ratingData = JSON.parse(value.ratingData);",
+									"                var dateLabels = JSON.parse(value.dateLabels);",
+									"                var avgRatings = JSON.parse(value.avgRatings);",
+									"                ",
+									"                // Line Chart - Average Rating Over Time",
+									"                var lineCtx = document.getElementById('lineChart').getContext('2d');",
+									"                new Chart(lineCtx, {",
+									"                    type: 'line',",
+									"                    data: {",
+									"                        labels: dateLabels,",
+									"                        datasets: [{",
+									"                            label: 'Average Rating',",
+									"                            data: avgRatings,",
+									"                            borderColor: 'rgba(54, 162, 235, 1)',",
+									"                            backgroundColor: 'rgba(54, 162, 235, 0.2)',",
+									"                            fill: true,",
+									"                            tension: 0.1",
+									"                        }]",
+									"                    },",
+									"                    options: {",
+									"                        title: {",
+									"                            display: true,",
+									"                            text: 'Average Rating Over Time'",
+									"                        },",
+									"                        scales: {",
+									"                            yAxes: [{",
+									"                                ticks: {",
+									"                                    beginAtZero: true,",
+									"                                    max: 5",
+									"                                },",
+									"                                scaleLabel: {",
+									"                                    display: true,",
+									"                                    labelString: 'Rating'",
+									"                                }",
+									"                            }],",
+									"                            xAxes: [{",
+									"                                scaleLabel: {",
+									"                                    display: true,",
+									"                                    labelString: 'Date'",
+									"                                }",
+									"                            }]",
+									"                        }",
+									"                    }",
+									"                });",
+									"                ",
+									"                // Bar Chart - Counts Per Rating",
+									"                var barCtx = document.getElementById('barChart').getContext('2d');",
+									"                new Chart(barCtx, {",
+									"                    type: 'bar',",
+									"                    data: {",
+									"                        labels: ratingLabels,",
+									"                        datasets: [{",
+									"                            label: 'Number of Feedbacks',",
+									"                            data: ratingData,",
+									"                            backgroundColor: [",
+									"                                'rgba(255, 99, 132, 0.7)',",
+									"                                'rgba(255, 159, 64, 0.7)',",
+									"                                'rgba(255, 205, 86, 0.7)',",
+									"                                'rgba(75, 192, 192, 0.7)',",
+									"                                'rgba(54, 162, 235, 0.7)'",
+									"                            ],",
+									"                            borderColor: [",
+									"                                'rgba(255, 99, 132, 1)',",
+									"                                'rgba(255, 159, 64, 1)',",
+									"                                'rgba(255, 205, 86, 1)',",
+									"                                'rgba(75, 192, 192, 1)',",
+									"                                'rgba(54, 162, 235, 1)'",
+									"                            ],",
+									"                            borderWidth: 1",
+									"                        }]",
+									"                    },",
+									"                    options: {",
+									"                        title: {",
+									"                            display: true,",
+									"                            text: 'Feedback Count by Rating'",
+									"                        },",
+									"                        scales: {",
+									"                            yAxes: [{",
+									"                                ticks: {",
+									"                                    beginAtZero: true,",
+									"                                    stepSize: 1",
+									"                                },",
+									"                                scaleLabel: {",
+									"                                    display: true,",
+									"                                    labelString: 'Count'",
+									"                                }",
+									"                            }],",
+									"                            xAxes: [{",
+									"                                scaleLabel: {",
+									"                                    display: true,",
+									"                                    labelString: 'Rating'",
+									"                                }",
+									"                            }]",
+									"                        }",
+									"                    }",
+									"                });",
+									"            });",
+									"        </script>",
+									"    `;",
+									"    ",
+									"    pm.visualizer.set(template, visualizerData);",
+									"}"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token_aluno}}"
+							}
+						],
+						"url": {
+							"raw": "{{feedback_url}}/api/feedbacks/me",
+							"host": [
+								"{{feedback_url}}"
+							],
+							"path": [
+								"api",
+								"feedbacks",
+								"me"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Admin",
+			"item": [
+				{
+					"name": "Listar Todos Feedbacks",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token_admin}}"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8080/api/admin/feedbacks",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"admin",
+								"feedbacks"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Listar Feedbacks Urgentes",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token_admin}}"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8080/api/admin/feedbacks/urgent",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"admin",
+								"feedbacks",
+								"urgent"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Gerar Relatório Semanal",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token_admin}}"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8080/api/admin/report/weekly",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"admin",
+								"report",
+								"weekly"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Estatísticas Gerais",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token_admin}}"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8080/api/admin/stats",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"admin",
+								"stats"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Health Check",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{feedback_url}}/actuator/health",
+					"host": [
+						"{{feedback_url}}"
+					],
+					"path": [
+						"actuator",
+						"health"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Listar Feedbacks Urgentes",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// Parse the JSON response",
+							"const responseData = pm.response.json();",
+							"",
+							"// Aggregate counts by date (YYYY-MM-DD)",
+							"function aggregateByDate(data) {",
+							"    const dateCounts = {};",
+							"    ",
+							"    data.forEach(item => {",
+							"        if (item.createdAt) {",
+							"            const date = item.createdAt.split('T')[0]; // Extract YYYY-MM-DD",
+							"            dateCounts[date] = (dateCounts[date] || 0) + 1;",
+							"        }",
+							"    });",
+							"    ",
+							"    // Convert to array and sort by date ascending",
+							"    const sortedDates = Object.keys(dateCounts).sort();",
+							"    return sortedDates.map(date => ({",
+							"        date: date,",
+							"        count: dateCounts[date]",
+							"    }));",
+							"}",
+							"",
+							"function constructVisualizerPayload() {",
+							"    return { response: aggregateByDate(responseData) };",
+							"}",
+							"",
+							"var template = `",
+							"<canvas id=\"urgentFeedbacksChart\" height=\"100\"></canvas>",
+							"<script src=\"https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js\"></script>",
+							"<script>",
+							"    var ctx = document.getElementById(\"urgentFeedbacksChart\");",
+							"    var chart = new Chart(ctx, {",
+							"        type: \"bar\",",
+							"        data: {",
+							"            labels: [],",
+							"            datasets: [{",
+							"                label: \"Urgent Feedbacks\",",
+							"                backgroundColor: \"rgba(220, 53, 69, 0.7)\",",
+							"                borderColor: \"rgba(220, 53, 69, 1)\",",
+							"                borderWidth: 1,",
+							"                data: []",
+							"            }]",
+							"        },",
+							"        options: {",
+							"            legend: { display: true },",
+							"            title: {",
+							"                display: true,",
+							"                text: \"Urgent Feedbacks per Day\"",
+							"            },",
+							"            scales: {",
+							"                xAxes: [{",
+							"                    display: true,",
+							"                    scaleLabel: {",
+							"                        display: true,",
+							"                        labelString: \"Date\"",
+							"                    }",
+							"                }],",
+							"                yAxes: [{",
+							"                    display: true,",
+							"                    scaleLabel: {",
+							"                        display: true,",
+							"                        labelString: \"Count\"",
+							"                    },",
+							"                    ticks: {",
+							"                        beginAtZero: true,",
+							"                        stepSize: 1",
+							"                    }",
+							"                }]",
+							"            }",
+							"        }",
+							"    });",
+							"",
+							"    pm.getData(function (err, value) {",
+							"        chart.data.labels = value.response.map(function(item) { return item.date; });",
+							"        chart.data.datasets[0].data = value.response.map(function(item) { return item.count; });",
+							"        chart.update();",
+							"    });",
+							"</script>",
+							"`;",
+							"",
+							"pm.visualizer.set(template, constructVisualizerPayload());"
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{token_admin}}"
+					}
+				],
+				"url": {
+					"raw": "{{feedback_url}}/api/admin/feedbacks/urgent?lastWeek=true",
+					"host": [
+						"{{feedback_url}}"
+					],
+					"path": [
+						"api",
+						"admin",
+						"feedbacks",
+						"urgent"
+					],
+					"query": [
+						{
+							"key": "lastWeek",
+							"value": "true"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"requests": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"requests": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "token_admin",
+			"value": ""
+		},
+		{
+			"key": "token_aluno",
+			"value": ""
+		},
+		{
+			"key": "feedback_url",
+			"value": ""
+		},
+		{
+			"key": "listar_url",
+			"value": ""
+		}
+	]
 }
