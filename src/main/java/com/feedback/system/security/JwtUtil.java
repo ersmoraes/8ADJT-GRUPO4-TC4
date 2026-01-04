@@ -76,9 +76,18 @@ public class JwtUtil {
      * Gera um token JWT para o usuário.
      */
     public String generateToken(UserDetails userDetails) {
-        Map<String, Object> claims = new HashMap<>();
-        return createToken(claims, userDetails.getUsername());
-    }
+
+    String role = userDetails.getAuthorities()
+            .stream()
+            .findFirst()
+            .map(Object::toString)
+            .orElse("ROLE_STUDENT");
+
+    Map<String, Object> claims = new HashMap<>();
+    claims.put("role", role);
+
+    return createToken(claims, userDetails.getUsername());
+}
 
     /**
      * Cria o token JWT com as claims fornecidas.
