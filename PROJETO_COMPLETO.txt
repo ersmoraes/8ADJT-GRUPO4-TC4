@@ -1,0 +1,248 @@
+╔═══════════════════════════════════════════════════════════════════════════╗
+║                                                                           ║
+║    🎓 SISTEMA DE GERENCIAMENTO DE FEEDBACKS - CLOUD SERVERLESS           ║
+║                                                                           ║
+║    Projeto completo desenvolvido para demonstração de arquitetura         ║
+║    serverless moderna com Java Spring Boot e Google Cloud Platform        ║
+║                                                                           ║
+╚═══════════════════════════════════════════════════════════════════════════╝
+
+═══════════════════════════════════════════════════════════════════════════
+📋 RESUMO DO PROJETO
+═══════════════════════════════════════════════════════════════════════════
+
+✅ ARQUITETURA: Serverless + Event-Driven
+✅ BACKEND: Java 17 + Spring Boot 3.2
+✅ CLOUD: Google Cloud Platform (Cloud Run + Cloud Functions)
+✅ DATABASE: H2 (produção atual) / PostgreSQL (opcional para evolução)
+✅ SEGURANÇA: JWT + Spring Security com RBAC
+✅ AUTOMAÇÃO: Notificações e Relatórios Serverless
+✅ MONITORAMENTO: Cloud Monitoring + Cloud Logging
+
+> Observação importante:
+A arquitetura final adotada utiliza **Cloud Run** para a API principal e
+**Cloud Functions Gen2 + Cloud Scheduler + Pub/Sub** para automações.
+Isso garante escalabilidade automática, baixo custo e simplicidade operacional.
+
+═══════════════════════════════════════════════════════════════════════════
+📦 ESTRUTURA DO PROJETO CRIADO
+═══════════════════════════════════════════════════════════════════════════
+
+feedback-system-cloud/
+│
+├── 📁 src/main/java/com/feedback/system/
+│   ├── FeedbackSystemApplication.java      # Classe principal
+│   │
+│   ├── 📁 model/                            # Entidades JPA
+│   │   ├── Feedback.java                   # Entidade de feedback
+│   │   └── User.java                       # Entidade de usuário
+│   │
+│   ├── 📁 repository/                       # Repositórios Spring Data
+│   │   ├── FeedbackRepository.java
+│   │   └── UserRepository.java
+│   │
+│   ├── 📁 service/                          # Lógica de negócio
+│   │   ├── FeedbackService.java
+│   │   ├── NotificationService.java
+│   │   ├── ReportService.java
+│   │   └── AuthService.java
+│   │
+│   ├── 📁 controller/                       # REST Controllers
+│   │   ├── FeedbackController.java         # Endpoints de aluno
+│   │   ├── AdminController.java            # Endpoints de admin
+│   │   └── AuthController.java             # Autenticação
+│   │
+│   ├── 📁 security/                         # Segurança JWT
+│   │   ├── JwtUtil.java
+│   │   ├── JwtAuthenticationFilter.java
+│   │   └── CustomUserDetailsService.java
+│   │
+│   ├── 📁 dto/                              # Data Transfer Objects
+│   │   ├── FeedbackRequest.java
+│   │   ├── FeedbackResponse.java
+│   │   ├── LoginRequest.java
+│   │   └── AuthResponse.java
+│   │
+│   └── 📁 config/                           # Configurações
+│       └── SecurityConfig.java             # Spring Security
+│
+├── 📁 cloud-functions/                      # Funções Serverless
+│   ├── 📁 notification-function/
+│   │   ├── index.js                        # Função de notificação (URGENT)
+│   │   └── package.json
+│   └── 📁 report-function/
+│       ├── index.js                        # Relatório semanal + HTTP manual
+│       └── package.json
+│
+├── 📁 src/main/resources/
+│   └── application.properties              # Configurações da aplicação
+│
+├── 📄 pom.xml                               # Dependências Maven
+├── 📄 Dockerfile                            # Container para Cloud Run
+├── 📄 docker-compose.yml                    # Execução local opcional
+│
+├── ☁️  cloudbuild.yaml                      # CI/CD Google Cloud Build
+├── 🚀 deploy.sh                             # Script de deploy GCP
+├── 🛑 shutdown.sh                           # Script de encerramento
+│
+├── 📘 README.md                             # Documentação completa
+├── 📘 RELATORIO_TECNICO.md                  # Relatório técnico detalhado
+├── 📘 QUICKSTART.md                         # Guia rápido 5 minutos
+├── 📘 API_EXAMPLES.md                       # Exemplos de requisições
+├── 📘 GCP_DEPLOYMENT.md                     # Guia de deploy no GCP
+└── 📘 PROJETO_COMPLETO.txt                  # Este arquivo
+
+═══════════════════════════════════════════════════════════════════════════
+🎯 FUNCIONALIDADES IMPLEMENTADAS
+═══════════════════════════════════════════════════════════════════════════
+
+👨‍🎓 PARA ALUNOS (ROLE_STUDENT):
+  ✅ Criar feedbacks com nota (1-5) e comentários
+  ✅ Marcar feedbacks como urgentes
+  ✅ Consultar apenas seus próprios feedbacks
+  ✅ Autenticação via JWT
+
+👨‍💼 PARA ADMINISTRADORES (ROLE_ADMIN):
+  ✅ Visualizar todos os feedbacks do sistema
+  ✅ Filtrar feedbacks urgentes
+  ✅ Gerar relatórios manuais
+  ✅ Gerar relatórios semanais
+  ✅ Visualizar estatísticas
+
+🤖 AUTOMAÇÕES SERVERLESS:
+  ✅ Notificação automática quando feedback urgente é criado
+  ✅ Relatório semanal agendado via Cloud Scheduler → Pub/Sub → Cloud Function
+  ✅ Função HTTP alternativa para teste manual
+  ✅ Integração com backend 100% funcional
+
+🔒 SEGURANÇA:
+  ✅ JWT com expiração
+  ✅ RBAC (roles STUDENT / ADMIN)
+  ✅ BCrypt
+  ✅ Validações robustas
+  ✅ HTTPS em produção
+
+📊 MONITORAMENTO:
+  ✅ Cloud Logging
+  ✅ Cloud Monitoring
+  ✅ Logs detalhados
+  ✅ Rastreabilidade completa
+
+═══════════════════════════════════════════════════════════════════════════
+🛠️ TECNOLOGIAS UTILIZADAS
+═══════════════════════════════════════════════════════════════════════════
+
+BACKEND:
+  • Java 17
+  • Spring Boot 3
+  • Spring Security (JWT)
+  • Spring Data JPA
+  • Hibernate
+  • Maven
+  • Lombok
+
+BANCO:
+  • H2 Database (produção atual e dev)
+  • PostgreSQL planejado (Cloud SQL)
+
+CLOUD FUNCTIONS:
+  • Node.js 20
+  • Funções Gen2
+  • HTTP Trigger + Pub/Sub Trigger
+
+GOOGLE CLOUD PLATFORM:
+  • Cloud Run (API principal)
+  • Cloud Functions Gen2
+  • Cloud Scheduler
+  • Pub/Sub
+  • Cloud Logging
+  • Cloud Monitoring
+  • Cloud Build
+
+OUTROS:
+  • Docker
+  • Docker Compose
+  • Postman
+  • JWT.io
+
+═══════════════════════════════════════════════════════════════════════════
+📡 API ENDPOINTS
+═══════════════════════════════════════════════════════════════════════════
+
+AUTENTICAÇÃO
+  POST /api/auth/login
+
+FEEDBACKS – STUDENT
+  POST /api/feedbacks
+  GET  /api/feedbacks/me
+  GET  /api/feedbacks/{id}
+
+ADMIN
+  GET  /api/admin/feedbacks
+  GET  /api/admin/feedbacks/urgent
+  POST /api/admin/report/weekly
+
+SYSTEM
+  GET  /actuator/health
+
+═══════════════════════════════════════════════════════════════════════════
+👥 USUÁRIOS DEFAULT
+═══════════════════════════════════════════════════════════════════════════
+
+ADMIN
+  Email: admin@feedback.com
+  Senha: admin123
+
+ALUNO 1
+  Email: maria.silva@aluno.com
+  Senha: maria123
+
+ALUNO 2
+  Email: joao.santos@aluno.com
+  Senha: joao123
+
+═══════════════════════════════════════════════════════════════════════════
+🚀 EXECUÇÃO
+═══════════════════════════════════════════════════════════════════════════
+
+LOCAL
+  ./mvnw spring-boot:run
+
+DOCKER
+  docker-compose up -d
+
+GCP DEPLOY
+  ./deploy.sh
+
+═══════════════════════════════════════════════════════════════════════════
+💰 CUSTOS
+═══════════════════════════════════════════════════════════════════════════
+
+Cloud Run: baixo custo (paga por uso)
+Cloud Functions: quase zero custo por baixo volume
+Cloud Scheduler + Pub/Sub: custo mínimo
+Projeto otimizado para free tier
+
+═══════════════════════════════════════════════════════════════════════════
+📚 DOCUMENTAÇÃO
+═══════════════════════════════════════════════════════════════════════════
+
+README.md
+RELATORIO_TECNICO.md
+QUICKSTART.md
+API_EXAMPLES.md
+GCP_DEPLOYMENT.md
+PROJETO_COMPLETO.txt
+
+═══════════════════════════════════════════════════════════════════════════
+✨ CONCLUSÃO
+═══════════════════════════════════════════════════════════════════════════
+
+✔ Projeto funcional
+✔ Deploy real no GCP
+✔ Arquitetura moderna
+✔ Segurança forte
+✔ Monitoramento ativo
+✔ documentação profissional
+
+═══════════════════════════════════════════════════════════════════════════

@@ -1,0 +1,21 @@
+# ================================================================
+# CLOUD BUILD - REPORT FUNCTION (GEN2)
+# ================================================================
+
+steps:
+  - name: 'gcr.io/cloud-builders/gcloud'
+    args:
+      [
+        'functions',
+        'deploy',
+        'generateReport',
+        '--gen2',
+        '--region=us-central1',
+        '--runtime=nodejs20',
+        '--trigger-topic=weekly-report',
+        '--entry-point=generateWeeklyReport',
+        '--source=cloud-functions/report-function',
+        '--allow-unauthenticated'
+      ]
+
+timeout: 800s
