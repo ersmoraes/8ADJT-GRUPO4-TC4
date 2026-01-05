@@ -1,0 +1,83 @@
+# ==============================================================================
+# GOOGLE CLOUD BUILD - PIPELINE COMPLETO
+# ==============================================================================
+# Este pipeline realiza deploy de:
+# 1️⃣ Backend (Cloud Run)
+# 2️⃣ Notification Function (Gen2)
+# 3️⃣ Report Function (Gen2)
+#
+# Trigger recomendado: push na branch main
+# ==============================================================================
+
+timeout: "1800s"
+
+steps:
+# ------------------------------------------------------------------------------
+# 1️⃣ BUILD E DEPLOY BACKEND (CLOUD RUN)
+# ------------------------------------------------------------------------------
+- name: "gcr.io/cloud-builders/docker"
+  id: "build-backend-image"
+  args:
+    - "build"
+    - "-t"
+    - "gcr.io/$PROJECT_ID/feedback-backend"
+    - "."
+
+- name: "gcr.io/cloud-builders/docker"
+  id: "push-backend-image"
+  args:
+    - "push"
+    - "gcr.io/$PROJECT_ID/feedback-backend"
+
+- name: "gcr.io/cloud-builders/gcloud"
+  id: "deploy-backend-cloudrun"
+  args:
+    [
+      "run",
+      "deploy",
+      "feedback-backend",
+      "--image=gcr.io/$PROJECT_ID/feedback-backend",
+      "--region=us-central1",
+      "--platform=managed",
+      "--allow-unauthenticated"
+    ]
+
+# ------------------------------------------------------------------------------
+# 2️⃣ DEPLOY NOTIFICATION FUNCTION (GEN2)
+# ------------------------------------------------------------------------------
+- name: "gcr.io/cloud-builders/gcloud"
+  id: "deploy-notification-function"
+  args:
+    [
+      "functions",
+      "deploy",
+      "notifyAdmin",
+      "--gen2",
+      "--runtime=nodejs20",
+      "--region=us-central1",
+      "--trigger-http",
+      "--entry-point=notifyUrgentFeedback",
+      "--allow-unauthenticated",
+      "--source=cloud-functions/notification-function"
+    ]
+
+# ------------------------------------------------------------------------------
+# 3️⃣ DEPLOY REPORT FUNCTION (GEN2)
+# ------------------------------------------------------------------------------
+- name: "gcr.io/cloud-builders/gcloud"
+  id: "deploy-report-function"
+  args:
+    [
+      "functions",
+      "deploy",
+      "generateReport",
+      "--gen2",
+      "--runtime=nodejs20",
+      "--region=us-central1",
+      "--trigger-topic=weekly-report",
+      "--entry-point=generateWeeklyReport",
+      "--source=cloud-functions/report-function"
+    ]
+
+options:
+  logging: CLOUD_LOGGING_ONLY
