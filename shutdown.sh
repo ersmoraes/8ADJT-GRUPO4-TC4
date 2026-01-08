@@ -74,8 +74,8 @@ echo -e "${GREEN}✓ Cloud Functions processadas${NC}"
 # ==============================================================================
 echo -e "\n${YELLOW}[3/5] Removendo Cloud Scheduler Job...${NC}"
 
-if gcloud scheduler jobs describe weekly-report-job >/dev/null 2>&1 ; then
-  gcloud scheduler jobs delete weekly-report-job --quiet
+if gcloud scheduler jobs describe weekly-report-job --location=${REGION} >/dev/null 2>&1 ; then
+  gcloud scheduler jobs delete weekly-report-job --location=${REGION} --quiet
   echo -e "${GREEN}✓ Scheduler removido${NC}"
 else
   echo "Scheduler já não existia"
