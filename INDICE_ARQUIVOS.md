@@ -15,7 +15,6 @@ feedback-system-cloud/
 │   ├── QUICKSTART.md                → Guia rápido atualizado
 │   ├── API_EXAMPLES.md              → Exemplos de uso da API
 │   ├── GCP_DEPLOYMENT.md            → Deploy oficial no Google Cloud
-│   ├── AZURE_DEPLOYMENT.md          → Alternativa de deploy no Azure
 │   └── INDICE_ARQUIVOS.md           → Este arquivo
 │
 ├── ☁️ Configurações Cloud (5 arquivos)
