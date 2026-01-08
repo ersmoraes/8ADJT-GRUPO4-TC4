@@ -40,7 +40,7 @@ Este guia descreve o **deploy completo e oficial do Sistema de Gerenciamento de 
 1️⃣ Conta no Google Cloud  
 2️⃣ Projeto criado e ativo  
 3️⃣ Billing habilitado  
-4️⃣ SDK instalado
+4️⃣ SDK instalado  
 
 ```bash
 https://cloud.google.com/sdk/docs/install
@@ -105,9 +105,10 @@ gcloud run deploy feedback-backend \
 ```
 
 ### Variáveis importantes
+
 ➡️ Configure no Cloud Run:
 ```
-NOTIFICATION_FUNCTION_URL = https://notifyadmin-2onaas43pa-uc.a.run.app
+NOTIFICATION_FUNCTION_URL = https://notifyadmin-xxxx.a.run.app
 jwt.secret = sua-chave-secreta-jwt-super-segura-256-bits-minimo
 jwt.expiration = 86400000
 ```
@@ -119,7 +120,7 @@ jwt.expiration = 86400000
 ```bash
 cd cloud-functions/notification-function
 
-gcloud functions deploy notifyAdmin \
+gcloud functions deploy notifyadmin \
  --gen2 \
  --runtime=nodejs20 \
  --region=us-central1 \
@@ -135,7 +136,7 @@ gcloud functions deploy notifyAdmin \
 ```bash
 cd cloud-functions/report-function
 
-gcloud functions deploy generateReport \
+gcloud functions deploy reporthttp \
  --gen2 \
  --runtime=nodejs20 \
  --region=us-central1 \
@@ -147,7 +148,7 @@ gcloud functions deploy generateReport \
 Configure variáveis:
 
 ```
-API_URL=https://feedback-backend-385950174704.us-central1.run.app
+API_URL=https://feedback-backend-xxxx.us-central1.run.app
 ADMIN_EMAIL=admin@feedback.com
 ADMIN_PASSWORD=admin123
 ```
@@ -157,6 +158,7 @@ ADMIN_PASSWORD=admin123
 # ⏰ Deploy Cloud Function – relatório semanal automático
 
 ### 1️⃣ Criar tópico Pub/Sub
+
 ```bash
 gcloud pubsub topics create weekly-report
 ```
@@ -166,7 +168,7 @@ gcloud pubsub topics create weekly-report
 ### 2️⃣ Deploy função agendada
 
 ```bash
-gcloud functions deploy generateWeeklyReport \
+gcloud functions deploy generatereport \
  --gen2 \
  --runtime=nodejs20 \
  --region=us-central1 \
@@ -184,9 +186,9 @@ Executa toda **segunda às 08:00**:
 gcloud scheduler jobs create pubsub weekly-report-job \
  --schedule="0 8 * * 1" \
  --topic=weekly-report \
- --region=us-central1 \
- --message-body='{"action":"generate_report"}' \
- --time-zone="America/Sao_Paulo"
+ --message-body="generate" \
+ --time-zone="America/Sao_Paulo" \
+ --location=us-central1
 ```
 
 ---
@@ -197,7 +199,7 @@ gcloud scheduler jobs create pubsub weekly-report-job \
 BACKEND_URL = https://feedback-backend-xxxx.run.app
 NOTIFY_URL = https://notifyadmin-xxxx.a.run.app
 REPORT_URL = https://generatereport-xxxx.a.run.app
-WEEKLY_REPORT_URL = via scheduler/pubsub
+WEEKLY_REPORT = Trigger via Cloud Scheduler + Pub/Sub
 MANUAL_REPORT_URL = https://reporthttp-xxxx.a.run.app
 ```
 
@@ -206,20 +208,23 @@ MANUAL_REPORT_URL = https://reporthttp-xxxx.a.run.app
 # 📊 Monitoramento
 
 ### Ver logs Cloud Run
+
 ```bash
-gcloud logs read --service=feedback-backend
+gcloud logs read \
+  'resource.type="cloud_run_revision" AND resource.labels.service_name="feedback-backend"'
 ```
 
 ### Ver logs Cloud Functions
+
 ```bash
-gcloud functions logs read notifyAdmin
-gcloud functions logs read generateReport
-gcloud functions logs read generateWeeklyReport
+gcloud functions logs read notifyadmin --region us-central1
+gcloud functions logs read generatereport --region us-central1
+gcloud functions logs read reporthttp --region us-central1
 ```
 
 Ou via Console:
 > Cloud Run → Logs  
-> Cloud Functions → Logs
+> Cloud Functions → Logs  
 
 ---
 
@@ -240,9 +245,9 @@ Ou via Console:
 ```bash
 gcloud run services delete feedback-backend
 
-gcloud functions delete notifyAdmin
-gcloud functions delete generateReport
-gcloud functions delete generateWeeklyReport
+gcloud functions delete notifyadmin
+gcloud functions delete generatereport
+gcloud functions delete reporthttp
 
 gcloud scheduler jobs delete weekly-report-job
 gcloud pubsub topics delete weekly-report
@@ -253,7 +258,7 @@ gcloud pubsub topics delete weekly-report
 # ⚔️ Azure x Google Cloud — Por que GCP?
 
 | Aspecto | Azure | GCP |
-|---------|-------|------|
+|--------|-------|------|
 | Backend Hosting | App Service | Cloud Run |
 | Serverless | Azure Functions | Cloud Functions |
 | Scheduler | Timer Trigger | Cloud Scheduler |
@@ -287,21 +292,21 @@ GCP oferece **menor custo, melhor simplicidade e funcionamento perfeito para wor
 ### 403 Forbidden
 ✔️ Token inválido  
 ✔️ jwt.secret diferente no Cloud Run  
-✔️ Cabeçalho `Authorization: Bearer <token>` ausente
+✔️ Cabeçalho `Authorization: Bearer <token>` ausente  
 
 ---
 
 ### Função não dispara
 ✔️ Scheduler configurado  
 ✔️ Pub/Sub existente  
-✔️ Função vinculada ao tópico correto
+✔️ Função vinculada ao tópico correto  
 
 ---
 
 ### Timeout GCP
 ✔️ Backend rodando  
 ✔️ URL correta  
-✔️ Autenticação funcionando
+✔️ Autenticação funcionando  
 
 ---
 

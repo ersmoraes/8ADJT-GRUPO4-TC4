@@ -27,7 +27,7 @@ Aqui você acessa rapidamente tudo o que precisa para **executar, entender, test
 
 ## 🌐 API — Uso e Testes
 
-- 📡 **[API_EXAMPLES.md — Exemplos de requisições da API](api_examples.md)**
+- 📡 **[API_EXAMPLES.md — Exemplos de requisições da API](API_EXAMPLES.md)**
 - 🧪 **Postman Collection**
   - **[FeedbackAPI.postman_collection.json](FeedbackAPI.postman_collection.json)**
 
